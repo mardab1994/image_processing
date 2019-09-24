@@ -12,6 +12,7 @@
 #include <stdbool.h>
 
 #include "image/image.h"
+#include "filters/filters.h"
 
 int main (int argc, char **argv) {
 	if (argc != 2) {
@@ -22,7 +23,10 @@ int main (int argc, char **argv) {
 	read_image(argv);
 	printf_image_info();
     print_image_matrix();
-    save_image("kopia", 5);
+    if (tresholding(image_get(), 60) != 0) {
+    	printf("ERROR\n");
+    }
+    save_image("progowanie_", 11);
 
 	return 0;
 }
