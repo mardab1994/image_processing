@@ -122,3 +122,8 @@ save_image(char *name, int name_len)
 	fclose(fp);
 }
 
+image_t
+*image_get(void)
+{
+	return &image;
+}

@@ -27,5 +27,6 @@ void read_image(char **argv);
 void printf_image_info(void);
 void print_image_matrix(void);
 void save_image(char *name, int name_len);
+image_t *image_get(void);
 
 #endif /* IMAGE_IMAGE_H_ */
