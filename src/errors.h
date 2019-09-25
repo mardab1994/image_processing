@@ -11,6 +11,7 @@
 typedef enum {
 	INPUT_FILE = 1,
 	NO_IMAGE_PTR,
+	COLOR_LEVEL_OVERFLOW,
 	LAST_ERROR
 } errors_t;
 
