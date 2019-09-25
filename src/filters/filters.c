@@ -14,6 +14,7 @@ tresholding(image_t *image, int treshold)
 	if (image == NULL) {
 		return NO_IMAGE_PTR;
 	}
+
 	treshold = (treshold * image->shades_of_grey) / 100;
 
     for (int y = 0; y < image->y_dim; y++) {
