@@ -11,6 +11,10 @@
 #include "../config.h"
 #include "../image/image.h"
 
+typedef enum {
+	WHITE = 0,
+	BLACK
+} color_tresholding_t;
 int tresholding(image_t *image, int treshold);
 
 #endif /* SRC_FILTERS_FILTERS_H_ */
