@@ -103,5 +103,127 @@ change_levels(image_t *image, int black, int white)
 }
 
 
+//-------------------------------------------------------------
+// L O C A L     O P E R A T I O N S
+
+int
+contouring(image_t *image)
+{
+	if (image == NULL) {
+		return NO_IMAGE_PTR;
+	}
+
+	int a, b;
+
+	for (int y = 0; y < image->y_dim; y++) {
+		for (int x = 0; x < image->x_dim; x++) {
+			if (x < image->x_dim - 1) {
+				a = abs(image->matrix[y * image->x_dim + x + 1] - image->matrix[y * image->x_dim + x]);
+			} else {
+				a = 0;
+			}
+
+			if (y < image->y_dim - 1) {
+				b = abs(image->matrix[(y + 1) * image->x_dim + x] - image->matrix[y * image->x_dim + x]);
+			} else {
+				b = 0;
+			}
+			image->matrix[y * image->x_dim + x] = a + b;
+		}
+	}
+
+	return 0;
+}
+
+
+int
+blurr(image_t *image, blurr_type_t blurr_type, int radius)
+{
+	if (image == NULL) {
+		return NO_IMAGE_PTR;
+	}
+
+	if ((blurr_type > BLURR_ORBITAL) || (blurr_type < BLURR_HORIZONTALL)) {
+		return BLURR_TYPE_OVERFLOW;
+	}
+
+	int a, b, c, d;
+
+	for (int y = 0; y < image->y_dim; y++) {
+		for (int x = 0; x < image->x_dim; x++) {
+			if (blurr_type != BLURR_VERTICALL) {	// dla horizontal i orbital
+				if (x > 0) {
+					a = image->matrix[y * image->x_dim + x - 1];
+				} else {
+					a = image->matrix[y * image->x_dim + x];
+				}
+
+				if (x < image->x_dim -1) {
+					b = image->matrix[y * image->x_dim + x + 1];
+				} else {
+					b = image->matrix[y * image->x_dim + x];
+				}
+			}
+
+			if (blurr_type != BLURR_HORIZONTALL) {	// dla vertical i orbital
+				if (y > 0) {
+					c = image->matrix[(y - 1) * image->x_dim + x];
+				} else {
+					c = image->matrix[y * image->x_dim + x];
+				}
+
+				if (y < image->y_dim - 1) {
+					d = image->matrix[(y + 1) * image->x_dim + x];
+				} else {
+					d = image->matrix[y * image->x_dim + x ];
+				}
+			}
+
+			if (blurr_type == BLURR_HORIZONTALL) {
+				image->matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] + a + b) / 3;
+			} else if (blurr_type == BLURR_VERTICALL) {
+				image->matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] + c + d) / 3;
+			} else if (blurr_type == BLURR_ORBITAL) {
+				image->matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] + a + b + c + d) / 5;
+			}
+		}
+	}
+
+	return 0;
+}
+
+//-------------------------------------------------------------
+// G L O B A L     O P E R A T I O N S
+
+int
+hstogram_stretching(image_t *image)
+{
+	if (image == NULL) {
+		return NO_IMAGE_PTR;
+	}
+
+	int minimum_level = 255;
+	int maximum_level = 0;
+
+	for (int y = 0; y < image->y_dim; y++) {
+		for (int x = 0; x < image->x_dim; x++) {
+			if (image->matrix[y * image->x_dim + x] > maximum_level) {
+				maximum_level = image->matrix[y * image->x_dim + x];
+			} else if (image->matrix[y * image->x_dim + x]  < minimum_level) {
+				minimum_level = image->matrix[y * image->x_dim + x];
+			}
+		}
+	}
+
+	for (int y = 0; y < image->y_dim; y++) {
+		for (int x = 0; x < image->x_dim; x++) {
+			image->matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] - minimum_level) *
+					(maximum_level / (maximum_level - minimum_level));
+		}
+	}
+
+	return 0;
+}
+
 
 
