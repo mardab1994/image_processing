@@ -10,6 +10,7 @@
 
 #include <math.h>
 
+
 int
 tresholding(image_t *image, int treshold)
 {
