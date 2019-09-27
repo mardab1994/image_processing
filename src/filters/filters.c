@@ -225,5 +225,86 @@ hstogram_stretching(image_t *image)
 	return 0;
 }
 
+int
+histgram_alignment(image_t *image)
+{
+	if (image == NULL) {
+		return NO_IMAGE_PTR;
+	}
+
+	int minimum_level = 256;
+	int maximum_level = 0;
+
+	int count_of_shades[256]; // tablica zawierajaca liczebnosc danego odcienia koloru
+
+	int *count_of_shades_in_image;
+	count_of_shades_in_image = malloc(image->shades_of_grey* sizeof(int));
+
+	if (count_of_shades_in_image == NULL) {
+		return ALOCATION_MEMORY;
+	}
+	for (int shades = 0; shades < 256; shades++) {
+
+			count_of_shades[shades] = 0;
+
+	}
+	float *H;
+
+	for (int y = 0; y < image->y_dim; y++) {
+		for (int x = 0; x < image->x_dim; x++) {
+			if (image->matrix[y * image->x_dim + x] > maximum_level) {
+				maximum_level = image->matrix[y * image->x_dim + x];
+			} else if (image->matrix[y * image->x_dim + x]  < minimum_level) {
+				minimum_level = image->matrix[y * image->x_dim + x];
+			}
+
+			for (int shades = 0; shades < 256; shades++) {
+				if (shades == image->matrix[y * image->x_dim + x]) {
+					count_of_shades[shades]++;
+					break;
+				}
+			}
+		}
+	}
+
+	H = malloc(image->x_dim * image->y_dim * sizeof(float));
+
+	if (H == NULL) {
+		return ALOCATION_MEMORY;
+	}
+
+	for (int y = 0; y < image->y_dim; y++) {
+		for (int x = 0; x < image->x_dim; x++) {
+			H[y * image->x_dim + x] = (count_of_shades[image->matrix[y * image->x_dim + x]]) / (image->x_dim * image->y_dim);
+		}
+	}
+
+//	for (int y = 0; y < image->y_dim; y++) {
+//		for (int x = 0; x < image->x_dim; x++) {
+//			image->matrix[y * image->x_dim + x] = (int) (((H[y * image->x_dim + x] - 1) / ((image->x_dim * image->y_dim) - 1)))*(image->shades_of_grey - 1);
+//		}
+//	}
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
