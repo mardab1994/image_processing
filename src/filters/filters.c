@@ -281,7 +281,10 @@ histgram_alignment(image_t *image)
 				cumulative_distribution[y * image->x_dim + x] += probability_of_shade_in_image[i];
 			}
 			cumulative_distribution[y * image->x_dim + x] = cumulative_distribution[y * image->x_dim + x] * (maximum_level - minimum_level) + minimum_level;
-			printf("%f\n",cumulative_distribution[y * image->x_dim + x] );		}
+#if (DEBUG == 1)
+			printf("%f\n",cumulative_distribution[y * image->x_dim + x] );
+#endif
+			}
 	}
 
 	for (int y = 0; y < image->y_dim; y++) {

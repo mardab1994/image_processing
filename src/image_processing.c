@@ -20,10 +20,16 @@ int main (int argc, char **argv) {
 		return 1;
 	}
 
+	printf("%s\n", argv[1]);
+
 	read_image(argv);
+
 	printf_image_info();
+
+#if (DEBUG == 1)
     print_image_matrix();
-    if (tresholding(image_get(), 60) != 0) {
+#endif
+
     	printf("ERROR\n");
     }
     save_image("progowanie_", 11);

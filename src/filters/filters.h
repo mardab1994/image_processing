@@ -34,4 +34,5 @@ int blurr(image_t *image, blurr_type_t blurr_type, int radius);
 
 int hstogram_stretching(image_t *image);
 int histgram_alignment(image_t *image);
+
 #endif /* SRC_FILTERS_FILTERS_H_ */
