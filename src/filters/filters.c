@@ -30,6 +30,8 @@ tresholding(image_t *image, int treshold)
 		}
 	}
 
+    save_image("tresholding_", 12);
+
     return 0;
 }
 
@@ -56,6 +58,8 @@ half_tresholding(image_t *image, int treshold, color_tresholding_t color_treshol
 		}
 	}
 
+	save_image("half_tresholding_", 17);
+
 	return 0;
 }
 
@@ -72,6 +76,8 @@ gamma_correction(image_t *image, double gamma_level)
 					pow(((image->matrix[y * image->x_dim + x])/image->shades_of_grey), (1 / gamma_level));
 		}
 	}
+
+	save_image("gamma_", 6);
 
 	return 0;
 }
@@ -99,6 +105,8 @@ change_levels(image_t *image, int black, int white)
 			}
 		}
 	}
+
+	save_image("change_level_", 13);
 
 	return 0;
 }
@@ -132,6 +140,8 @@ contouring(image_t *image)
 			image->computed_matrix[y * image->x_dim + x] = a + b;
 		}
 	}
+
+	save_image("contouring_", 11);
 
 	return 0;
 }
@@ -190,6 +200,8 @@ blurr(image_t *image, blurr_type_t blurr_type, int radius)
 		}
 	}
 
+	save_image("blurr_", 6);
+
 	return 0;
 }
 
@@ -222,6 +234,8 @@ hstogram_stretching(image_t *image)
 					(maximum_level / (maximum_level - minimum_level));
 		}
 	}
+
+	save_image("hstogram_stretching_", 20);
 
 	return 0;
 }
@@ -258,8 +272,10 @@ histgram_alignment(image_t *image)
 		probability_of_shade_in_image[i] = (float)(((float)count_of_shades[i]) / (image->x_dim*image->y_dim));
 		sum += probability_of_shade_in_image[i];
 	}
+
 	if (sum < 1) {
 		printf("sum prob = %f", sum);
+		return LAST_ERROR;
 	}
 
 
@@ -292,6 +308,8 @@ histgram_alignment(image_t *image)
 			image->computed_matrix[y * image->x_dim + x] = cumulative_distribution[y * image->x_dim + x];//round( 255 * ((cumulative_distribution[y * image->x_dim + x] - 1)/(image->x_dim * image->y_dim)) );
 		}
 	}
+
+	save_image("histgram_alignment_", 19);
 
 	return 0;
 }
