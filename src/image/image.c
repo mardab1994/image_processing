@@ -16,6 +16,8 @@ read_image(char **argv)
 	FILE *fp;
 	char ch;
 	char *im_name = image.image_name;
+	char *file_name = image.file_name;
+	int cntr = 0;
 	int *ptr;
 
 	if ((fp = fopen(argv[1], "r")) == NULL) {
@@ -37,9 +39,14 @@ read_image(char **argv)
 		if (ch == '#') {
 			while (ch != '\n') {
 				ch = fgetc(fp);
-				if (ch == ' ') continue;
+				if (ch == ' ') {
+					cntr++;
+					continue;
+				}
 				*im_name++ = ch;
-
+				if (cntr < 2) {
+					*file_name++ = ch;
+				}
 			}
 			fscanf(fp, "%d", &image.x_dim);
 			fscanf(fp, "%d", &image.y_dim);
@@ -69,7 +76,10 @@ read_image(char **argv)
 		}
 
     } while(ch != EOF);
-
+#if (DEBUG == 1)
+    printf("%s\n", image.file_name);
+    printf("%s\n", image.image_name);
+#endif
     fclose(fp);
 }
 
@@ -104,7 +114,7 @@ save_image(char *name, int name_len)
 		if (i < name_len) {
 			self_name[i] = name[i];
 		} else {
-			self_name[i] = image.image_name[j];
+			self_name[i] = image.file_name[j];
 			j++;
 		}
 	}
@@ -115,7 +125,7 @@ save_image(char *name, int name_len)
 	}
 
 	fprintf(fp, "P%d\n", image.magic_number);
-	fprintf(fp, "# %s", self_name);
+	fprintf(fp, "# %s", image.image_name);
 	fprintf(fp, "%d %d\n%d\n", image.x_dim, image.y_dim, image.shades_of_grey);
 
     for (int y = 0; y < image.y_dim; y++) {
