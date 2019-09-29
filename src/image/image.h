@@ -20,6 +20,7 @@ typedef struct {
 	int y_dim;
 	int shades_of_grey;
 	int *matrix;
+	int *computed_matrix;
 	char image_name[IMAGE_NAME_LEN];
 } image_t;
 

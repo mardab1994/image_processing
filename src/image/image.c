@@ -52,6 +52,12 @@ read_image(char **argv)
 				exit(2);
 			}
 
+			image.computed_matrix = malloc(image.y_dim * image.x_dim * sizeof(int));
+			if (image.computed_matrix == NULL) {
+				printf("Blad alokacji pamiec\n");
+				exit(2);
+			}
+
 			ptr = &image.matrix[0];
 			ch = fgetc(fp);
 			fscanf(fp, "%d", &image.shades_of_grey);
@@ -114,7 +120,7 @@ save_image(char *name, int name_len)
 
     for (int y = 0; y < image.y_dim; y++) {
 		for (int x = 0; x < image.x_dim; x++) {
-			fprintf(fp, "%d ", image.matrix[y*image.x_dim + x]);
+			fprintf(fp, "%d ", image.computed_matrix[y*image.x_dim + x]);
 		}
 		fprintf(fp, "\n");
 	}

@@ -23,9 +23,9 @@ tresholding(image_t *image, int treshold)
     for (int y = 0; y < image->y_dim; y++) {
 		for (int x = 0; x < image->x_dim; x++) {
 			if (image->matrix[y * image->x_dim + x] <= treshold) {
-				image->matrix[y * image->x_dim + x]  = 0;
+				image->computed_matrix[y * image->x_dim + x]  = 0;
 			} else {
-				image->matrix[y * image->x_dim + x] = image->shades_of_grey;
+				image->computed_matrix[y * image->x_dim + x] = image->shades_of_grey;
 			}
 		}
 	}
@@ -46,11 +46,11 @@ half_tresholding(image_t *image, int treshold, color_tresholding_t color_treshol
 		for (int x = 0; x < image->x_dim; x++) {
 			if (color_tresholding == BLACK) {
 				if (image->matrix[y * image->x_dim + x] <= treshold) {
-					image->matrix[y * image->x_dim + x]  = 0;
+					image->computed_matrix[y * image->x_dim + x]  = 0;
 				}
 			} else if (color_tresholding == WHITE) {
 				if (image->matrix[y * image->x_dim + x] > treshold) {
-					image->matrix[y * image->x_dim + x]  = image->shades_of_grey;
+					image->computed_matrix[y * image->x_dim + x]  = image->shades_of_grey;
 				}
 			}
 		}
@@ -68,7 +68,7 @@ gamma_correction(image_t *image, double gamma_level)
 
 	for (int y = 0; y < image->y_dim; y++) {
 		for (int x = 0; x < image->x_dim; x++) {
-			image->matrix[y * image->x_dim + x]  = image->shades_of_grey *
+			image->computed_matrix[y * image->x_dim + x]  = image->shades_of_grey *
 					pow(((image->matrix[y * image->x_dim + x])/image->shades_of_grey), (1 / gamma_level));
 		}
 	}
@@ -90,11 +90,11 @@ change_levels(image_t *image, int black, int white)
 	for (int y = 0; y < image->y_dim; y++) {
 		for (int x = 0; x < image->x_dim; x++) {
 			if (image->matrix[y * image->x_dim + x] <= black) {
-				image->matrix[y * image->x_dim + x] = 0;
+				image->computed_matrix[y * image->x_dim + x] = 0;
 			} else if (image->matrix[y * image->x_dim + x] >= white) {
-				image->matrix[y * image->x_dim + x] = image->shades_of_grey;
+				image->computed_matrix[y * image->x_dim + x] = image->shades_of_grey;
 			} else {
-				image->matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] - black) *
+				image->computed_matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] - black) *
 						(image->shades_of_grey / (white - black));
 			}
 		}
@@ -129,7 +129,7 @@ contouring(image_t *image)
 			} else {
 				b = 0;
 			}
-			image->matrix[y * image->x_dim + x] = a + b;
+			image->computed_matrix[y * image->x_dim + x] = a + b;
 		}
 	}
 
@@ -181,11 +181,11 @@ blurr(image_t *image, blurr_type_t blurr_type, int radius)
 			}
 
 			if (blurr_type == BLURR_HORIZONTALL) {
-				image->matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] + a + b) / 3;
+				image->computed_matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] + a + b) / 3;
 			} else if (blurr_type == BLURR_VERTICALL) {
-				image->matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] + c + d) / 3;
+				image->computed_matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] + c + d) / 3;
 			} else if (blurr_type == BLURR_ORBITAL) {
-				image->matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] + a + b + c + d) / 5;
+				image->computed_matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] + a + b + c + d) / 5;
 			}
 		}
 	}
@@ -218,7 +218,7 @@ hstogram_stretching(image_t *image)
 
 	for (int y = 0; y < image->y_dim; y++) {
 		for (int x = 0; x < image->x_dim; x++) {
-			image->matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] - minimum_level) *
+			image->computed_matrix[y * image->x_dim + x] = (image->matrix[y * image->x_dim + x] - minimum_level) *
 					(maximum_level / (maximum_level - minimum_level));
 		}
 	}
@@ -286,7 +286,7 @@ histgram_alignment(image_t *image)
 
 	for (int y = 0; y < image->y_dim; y++) {
 		for (int x = 0; x < image->x_dim; x++) {
-			image->matrix[y * image->x_dim + x] = cumulative_distribution[y * image->x_dim + x];//round( 255 * ((cumulative_distribution[y * image->x_dim + x] - 1)/(image->x_dim * image->y_dim)) );
+			image->computed_matrix[y * image->x_dim + x] = cumulative_distribution[y * image->x_dim + x];//round( 255 * ((cumulative_distribution[y * image->x_dim + x] - 1)/(image->x_dim * image->y_dim)) );
 		}
 	}
 
