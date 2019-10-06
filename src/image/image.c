@@ -6,7 +6,7 @@
  */
 
 #include "image.h"
-
+#include <string.h>
 
 static image_t image;
 
@@ -136,6 +136,11 @@ save_image(char *name, int name_len)
 	}
 
 	fclose(fp);
+
+	char show_up_image_name[IMAGE_NAME_LEN +10] = {"eog "};
+	strcat(show_up_image_name ,self_name);
+
+	system(show_up_image_name);
 }
 
 image_t
