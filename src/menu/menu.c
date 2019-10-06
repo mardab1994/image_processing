@@ -7,6 +7,9 @@
 
 #include "menu.h"
 
+#include "../image/image.h"
+#include "../filters/filters.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -72,33 +75,99 @@ select_menu(menu_t menu)
 	case SAVE_IMAGE:
 		printf("SAVE_IMAGE\n");
 		break;
+
+	case IMAGE_INFO:
+		printf("IMAGE_INFO\n");
+		printf_image_info();
 		break;
 
 	case TRESHOLDING:
 		printf("TRESHOLDING\n");
+		printf("Set treshold in range <0, 100>\n ");
+		int treshold = scan_input(0, 100);
+
+		if (tresholding(image_get(), treshold) != 0) {
+			printf("ERROR\n");
+		}
+
 		break;
+
 	case HALF_TRESHOLDING:
 		printf("HALF_TRESHOLDING\n");
+		printf("Set treshold in range <0, 100>\n ");
+		int half_treshold = scan_input(0, 100);
+
+		printf("Set type tresholding (0 - WHITE, 1 - BLACK))");
+		color_tresholding_t type = (color_tresholding_t)scan_input(0, 1);
+
+	    if (half_tresholding(image_get(),half_treshold , type) != 0) {
+	    	printf("ERROR\n");
+	    }
+
 		break;
+
 	case GAMMA:
 		printf("GAMMA\n");
+		printf("Set gamma level\n");
+		int gamma_level = scan_input(0, 255);
+	    if (gamma_correction(image_get(), gamma_level) != 0) {
+	    	printf("ERROR\n");
+	    }
+
 		break;
+
 	case COUNTOURING:
 		printf("COUNTOURING\n");
+	    if (contouring(image_get()) != 0) {
+	    	printf("ERROR\n");
+	    }
+
 		break;
+
 	case BLURR:
 		printf("BLURR\n");
+		printf("Set blurr type [0 - HORIZONTAL, 1 - VERTICAL, 2 - ORBITAL]");
+
+		blurr_type_t blurr_type = (blurr_type_t)scan_input(0, 3);
+
+	    if (blurr(image_get(), blurr_type, 1) != 0) {
+	    	printf("ERROR\n");
+	    }
+
 		break;
+
 	case HISTOGRAM_STRETCHING:
 		printf("HISTOGRAM_STRETCHING\n");
+	    if (hstogram_stretching(image_get()) != 0) {
+	    	printf("ERROR\n");
+	    }
+
 		break;
+
 	case HISTOGRAM_ALIGMENT:
 		printf("HISTOGRAM_ALIGMENT\n");
+	    if (histgram_alignment(image_get()) != 0) {
+	    	printf("ERROR\n");
+	    }
+
 		break;
+
+	case CHANGE_LEVELS:
+		printf("CHANGE_LEVELS\n");
+		printf("Set white level\n");
+		int white_level = scan_input(0, 255);
+		printf("Set white level\n");
+		int black_level = scan_input(0, 255);
+
+	    if (change_levels(image_get(), black_level, white_level) != 0) {
+	    	printf("ERROR\n");
+	    }
+
+		break;
+
 	default:
 		break;
 	}
-}
 
 }
 
