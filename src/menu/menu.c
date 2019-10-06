@@ -100,9 +100,20 @@ select_menu(menu_t menu)
 	}
 }
 
+}
 
+static int
+scan_input(int range_down, int range_up)
+{
+	int input;
 
+	while ((scanf("%d", &input) == 0) || (input < range_down || input > range_up)) {
+		getchar();
+		printf("Give a number in range: <%d, %d >!!! \n", range_down, range_up);
+	}
 
+	return input;
+}
 
 
 
