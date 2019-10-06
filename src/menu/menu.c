@@ -12,7 +12,7 @@
 
 static void print_menu(void);
 static void select_menu(menu_t menu);
-
+static int scan_input(int range_down, int range_up);
 
 void
 main_menu(void)
@@ -63,13 +63,17 @@ print_menu(void)
 static void
 select_menu(menu_t menu)
 {
+
 	switch(menu) {
 	case READ_IMAGE:
 		printf("READ_IMAGE\n");
 		break;
+
 	case SAVE_IMAGE:
 		printf("SAVE_IMAGE\n");
 		break;
+		break;
+
 	case TRESHOLDING:
 		printf("TRESHOLDING\n");
 		break;
