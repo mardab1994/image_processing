@@ -23,10 +23,12 @@ main_menu(void)
 
 	do {
 		print_menu();
-		while((scanf("%d", &tmp) == 0) || (tmp < 1 || tmp > 10)) {
+
+		while((scanf("%d", &tmp) == 0) || (tmp < READ_IMAGE || tmp > EXIT)) {
 			getchar();
 			printf("Podaj Liczbe !!! \n");
 		}
+
 		menu = (menu_t)tmp;
 
 		if (menu == EXIT) {
