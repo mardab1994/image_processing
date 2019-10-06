@@ -42,17 +42,20 @@ main_menu(void)
 static void
 print_menu(void)
 {
+
 	printf("IMAGE PROCESSING\n\n");
-	printf("[1] Read image\n");
-	printf("[2] Read save image\n");
-	printf("[3] Tresholding\n");
-	printf("[4] Half tresholding\n");
-	printf("[5] Gamma correction\n");
-	printf("[6] Countouing\n");
-	printf("[7] Blurr\n");
-	printf("[8] Histogram stretching\n");
-	printf("[9] Histogram aligment\n");
-	printf("[10] Exit\n");
+	printf("[1]\tRead image\n");
+	printf("[2]\tSave image\n");
+	printf("[3]\tPrint image info\n");
+	printf("[4]\tTresholding\n");
+	printf("[5]\tHalf tresholding\n");
+	printf("[6]\tGamma correction\n");
+	printf("[7]\tCountouing\n");
+	printf("[8]\tBlurr\n");
+	printf("[9]\tHistogram stretching\n");
+	printf("[10]\tHistogram aligment\n");
+	printf("[11]\tChange levels\n");
+	printf("[12]\tExit\n");
 }
 
 static void
